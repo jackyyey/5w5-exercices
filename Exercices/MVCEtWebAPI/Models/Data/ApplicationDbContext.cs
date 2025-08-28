@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Models.Models;
 
 namespace MVCEtWebAPI.Data
 {
@@ -9,5 +10,6 @@ namespace MVCEtWebAPI.Data
             : base(options)
         {
         }
+        public DbSet<TestData> TestData { get; set; }
     }
 }
