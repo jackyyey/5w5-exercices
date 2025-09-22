@@ -1,0 +1,36 @@
+
+<main class="main">
+  <form [formGroup]="form">
+    <div>
+      <mat-form-field>
+      <input matInput type="text" placeholder="Quel est votre animal favoris" required formControlName="animalfavoris" name="animafavoris">
+      @if (form.hasError("chatValidator")){
+        <mat-error>
+          Vous devez préférer le chat!
+        </mat-error>
+      }
+    </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+      <input matInput type="text" placeholder="Aimez vous mieux les chats que l'informatique" required formControlName="chatinfo" name="chatinfo">
+      @if (form.hasError("q2Validator")){
+        <mat-error>
+          Vous devez répondre oui!
+        </mat-error>
+      }
+    </mat-form-field>
+    @if(form.hasError("q2Validator")&& form.hasError("chatValidator")){
+      <mat-error>
+          N'importe quoi!
+      </mat-error>
+    }
+    </div>
+    
+    <button mat-raised-button color="primary" [disabled]="!form.valid">
+        Enregistrer
+      </button>
+  </form>
+</main>
+
+
