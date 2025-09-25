@@ -80,7 +80,6 @@ namespace signalr.backend.Controllers
 
             return NotFound(new { Error = "L'utilisateur est introuvable ou le mot de passe de concorde pas" });
         }
-
         [Authorize]
         [HttpGet]
         public ActionResult<string[]> Test()

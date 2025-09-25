@@ -13,7 +13,7 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let token = sessionStorage.getItem('token');
+    let token = localStorage.getItem('token');
 
     if (token != null) {
       request = request.clone({
