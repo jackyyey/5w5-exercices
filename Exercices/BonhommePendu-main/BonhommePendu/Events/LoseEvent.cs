@@ -9,6 +9,7 @@ namespace BonhommePendu.Events
 
         // TODO: Compléter
         public LoseEvent(GameData gameData) {
+            gameData.Lost = true;
         }
     }
 }

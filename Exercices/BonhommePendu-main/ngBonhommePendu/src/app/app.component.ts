@@ -75,15 +75,29 @@ export class AppComponent {
       switch(event.eventType){
         case "WrongGuess": {
           this.gameData.nbWrongGuesses++;
+          if (this.gameData.nbWrongGuesses == 6){
+            setTimeout(()=>{
+              this.hangman.showMore();
+            }, 2000);
+          };
           this.hangman.showMore();
           break;
         }
         case "RevealLetter": {
+          console.log(event);
           this.gameData.revealedWord = this.setCharAt(this.gameData.revealedWord, event.index, event.letter);
           break;
         }
         case "GuessedLetter": {
           this.gameData.guessedLetters.push(event.letter);
+          break;
+        }
+        case "Win":{
+          this.gameData.won = true;
+          break;
+        }
+        case "Lose":{
+          this.gameData.lost = true;
           break;
         }
       }
