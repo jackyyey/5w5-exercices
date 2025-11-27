@@ -12,7 +12,7 @@ interface RoundResult{
 
 interface GameInfo{
   multiplierCost:number,
-  nbWins:number;
+  nbWin:number;
 }
 
 @Component({
@@ -27,23 +27,32 @@ export class AppComponent {
 
   // Ajouter une variable nbWins
 
+ 
+
   private hubConnection?: signalR.HubConnection
 
   isConnected = false;
   nbClicks = 0;
+  nbWins = 543643586745654697834655;
+
   // TODO: Ajouter 3 variables: Le multiplier, le multiplierCost, mais également le multiplierIntialCost pour remettre à jour multiplierCost après chaque fin de round (ou sinon on peut passer l'information dans l'appel qui vient du Hub!)
+
+  multiplier = 1;
+  multiplierInitialCost = 10;
+  multiplierCost = this.multiplier*this.multiplierInitialCost;
 
   constructor(public account:AccountService){
   }
 
   Increment() {
     //TODO: Augmenter le nbClicks par la valeur du multiplicateur
-    this.nbClicks += 1;
+    this.nbClicks += this.multiplier;
     this.hubConnection!.invoke('Increment')
   }
 
   BuyMultiplier() {
     // TODO: Implémenter la méthode qui permet d'acheter un niveau de multiplier (Appel au Hub!)
+    this.hubConnection!.invoke('BuyMultiplier')
   }
 
   async register(){
@@ -87,12 +96,16 @@ export class AppComponent {
     this.hubConnection.on('GameInfo', (data:GameInfo) => {
       this.isConnected = true;
       // TODO: Mettre à jour les variables pour le coût du multiplier et le nbWins
+      console.log(data.nbWin);
+      this.nbWins = data.nbWin;
+      this.multiplierCost = data.multiplierCost;
     });
 
     this.hubConnection.on('EndRound', (data:RoundResult) => {
       this.nbClicks = 0;
       // TODO: Reset du multiplierCost et le multiplier
-
+      this.multiplier = 1;
+      this.multiplierCost = this.multiplierInitialCost;
       // TODO: Si le joueur a gagné, on augmene nbWins
 
       if(data.nbClicks > 0){
@@ -100,6 +113,7 @@ export class AppComponent {
         if(data.winners.length > 1)
           phrase = " ont gagnées avec "
         alert(data.winners.join(", ") + phrase + data.nbClicks + " clicks!");
+        this.nbWins++;
       }
       else{
         alert("Aucun gagnant...");
